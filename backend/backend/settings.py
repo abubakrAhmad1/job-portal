@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -84,9 +85,9 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'demo',       # Database name you created
-        'USER': 'projectuser',     # Role name you created
-        'PASSWORD': 'projectuser', # Password you set for that role
+        'NAME': config("DB_NAME"),       # Database name you created
+        'USER': config("DB_USER"),     # Role name you created
+        'PASSWORD': config("DB_USER_PASSWORD"), # Password you set for that role
         'HOST': 'localhost',         # Since it’s running locally
         'PORT': '5432',              # Default PostgreSQL port
     }

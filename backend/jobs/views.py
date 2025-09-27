@@ -1,3 +1,82 @@
 from django.shortcuts import render
 
-# Create your views here.
+# NOTE: HERE WE ARE JUST OVERRIDING THE RESPONSE STRUCTURE NOT THE DEFAULT FUNCTIONALITY OF THE APIS 
+
+from rest_framework import generics, status
+from rest_framework.response import Response
+from rest_framework.exceptions import NotFound
+from .models import Job
+from .serializers import JobSerializer
+
+
+class JobListCreateView(generics.ListCreateAPIView):
+    """
+    GET: List all jobs
+    POST: Create a new job
+    """
+    queryset = Job.objects.all()
+    serializer_class = JobSerializer
+
+    def list(self, request, *args, **kwargs):
+        """Return a standardized response for GET"""
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response({
+            "success": True,
+            "count": len(serializer.data),
+            "data": serializer.data
+        }, status=status.HTTP_200_OK)
+
+    def create(self, request, *args, **kwargs):
+        """Handle job creation with validation"""
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        return Response({
+            "success": True,
+            "data": serializer.data
+        }, status=status.HTTP_201_CREATED)
+
+
+class JobDetailView(generics.RetrieveUpdateDestroyAPIView):
+    """
+    GET: Retrieve a job by ID
+    PUT/PATCH: Update a job
+    DELETE: Delete a job
+    """
+    queryset = Job.objects.all()
+    serializer_class = JobSerializer
+
+    def get_object(self):
+        try:
+            return super().get_object()
+        except Exception:
+            raise NotFound(detail="Job not found")
+
+    def retrieve(self, request, *args, **kwargs):
+        job = self.get_object()
+        serializer = self.get_serializer(job)
+        return Response({
+            "success": True,
+            "data": serializer.data
+        }, status=status.HTTP_200_OK)
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        job = self.get_object()
+        serializer = self.get_serializer(job, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response({
+            "success": True,
+            "data": serializer.data
+        }, status=status.HTTP_200_OK)
+
+    def destroy(self, request, *args, **kwargs):
+        job = self.get_object()
+        self.perform_destroy(job)
+        return Response({
+            "success": True,
+            "message": "Job deleted successfully"
+        }, status=status.HTTP_204_NO_CONTENT)
+

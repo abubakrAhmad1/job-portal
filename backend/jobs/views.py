@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
 from .models import Job
 from .serializers import JobSerializer
+from .filters import JobFilter
 
 
 class JobListCreateView(generics.ListCreateAPIView):
@@ -16,6 +17,23 @@ class JobListCreateView(generics.ListCreateAPIView):
     """
     queryset = Job.objects.all()
     serializer_class = JobSerializer
+
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filterset_class = JobFilter
+    search_fields = ['title', 'company']  # ?q=keyword
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        # --- Custom sorting ---
+        sort = self.request.query_params.get('sort')
+        if sort == 'posting_date_desc':
+            queryset = queryset.order_by('-posting_date')
+        elif sort == 'posting_date_asc':
+            queryset = queryset.order_by('posting_date')
+
+        return queryset
+
 
     def list(self, request, *args, **kwargs):
         """Return a standardized response for GET"""

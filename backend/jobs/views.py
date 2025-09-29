@@ -17,6 +17,7 @@ class JobListCreateView(generics.ListCreateAPIView):
     POST: Create a new job
     """
     queryset = Job.objects.all()
+    
     serializer_class = JobSerializer
 
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
@@ -27,7 +28,8 @@ class JobListCreateView(generics.ListCreateAPIView):
 
     def list(self, request, *args, **kwargs):
         """Return a standardized response for GET"""
-        queryset = self.get_queryset()
+        queryset = self.filter_queryset(self.get_queryset())  # ✅ This applies search, filters, and ordering
+
         serializer = self.get_serializer(queryset, many=True)
         return Response({
             "success": True,

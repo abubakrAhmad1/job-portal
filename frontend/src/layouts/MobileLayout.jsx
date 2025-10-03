@@ -1,4 +1,6 @@
 import React from 'react'
+import SearchBox from '../features/jobs/components/SearchBox'
+import Footer from '../features/jobs/components/Footer'
 // import Navbar from './Navbar' // ✅ Import your NavBar component
 // import BottomNav from './BottomNav' // ✅ Import Bottom navigation component
 
@@ -8,7 +10,7 @@ export default function MobileLayout({ children }) {
       
       {/* Top Navbar */}
       <header className="fixed top-0 left-0 w-full bg-white shadow-md z-10">
-        {/* <Navbar /> */}
+        <SearchBox />
       </header>
 
       {/* Main content with padding to avoid overlap with fixed navbar */}
@@ -18,7 +20,7 @@ export default function MobileLayout({ children }) {
 
       {/* Bottom Navigation (if needed) */}
       <footer className="fixed bottom-0 left-0 w-full bg-white shadow-inner z-10">
-        {/* <BottomNav /> */}
+        <Footer />
       </footer>
 
     </div>

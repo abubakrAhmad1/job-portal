@@ -3,14 +3,16 @@ import "./App.css";
 // import SearchBox from './features/jobs/components/SearchBox'
 import Button from "./components/Button";
 import SearchBox from "./features/jobs/components/SearchBox";
+import MobileLayout from "./layouts/MobileLayout";
 
 function App() {
   return <>
   {/* <Card title={'dummy title'} company={'dummy company'} /> */}
   {/* <SearchBox /> */}
-  <Button />
+  {/* <Button /> */}
   {/* <SearchBox /> */}
-  <SearchBox /> 
+  {/* <SearchBox />  */}
+  <MobileLayout />
     </>;
 }
 

@@ -8,8 +8,8 @@ export const fetchJobs = createAsyncThunk(
       // return response.data;
       const state = ThunkAPI.getState();
       const { location, title } = state.search;
-      console.log('hiiiiiiiiiiiiiiiiiiii');
-      console.log(location, title);
+      // console.log('hiiiiiiiiiiiiiiiiiiii');
+      console.log(location,title);
       // Simulate API call or return dummy data
       return [];
     } catch (err) {

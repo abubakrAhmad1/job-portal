@@ -16,9 +16,8 @@ export default function SearchBox() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(clearFields());
-  
     dispatch(fetchJobs());
+    dispatch(clearFields());
   };
 
   return (

@@ -19,7 +19,7 @@ export default function MobileLayout({ children }) {
       </main>
 
       {/* Bottom Navigation (if needed) */}
-      <footer className="fixed bottom-0 left-0 w-full bg-white shadow-inner z-10">
+      <footer className="fixed bottom-4 left-0 w-full bg-white shadow-inner z-10">
         <Footer />
       </footer>
 

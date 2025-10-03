@@ -6,14 +6,6 @@ export default function SearchBox() {
   const data = useSelector(state => state.search);
   const dispatch = useDispatch();
 
-  // const handleTitleChange = (e) => {
-  //   dispatch(setTitle(e));
-  // };
-
-  // const handleLocationChange = (e) => {
-  //   dispatch(setLocation(e));
-  // };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(fetchJobs());
@@ -30,7 +22,6 @@ export default function SearchBox() {
           type="text"
           name="title"
           value={data.title || ''}
-          // onChange={handleTitleChange}
           onChange={(e)=> dispatch(setTitle(e))}
           placeholder="Job title"
           className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -39,7 +30,6 @@ export default function SearchBox() {
           type="text"
           name="location"
           value={data.location || ''}
-          // onChange={handleLocationChange}
           onChange={(e)=> dispatch(setLocation(e))}
           placeholder="Location"
           className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"

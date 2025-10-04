@@ -3,25 +3,22 @@ import { fetchJobsApi } from "../../../api/jobApi";
 
 export const fetchJobs = createAsyncThunk(
   "jobs/fetchJobs",
-  async (_, ThunkAPI) => {
+  async (url, ThunkAPI) => {
     try {
-      // const response = await axios.get("https://api.example.com/jobs");
-      // return response.data;
-      const state = ThunkAPI.getState();
-      const { location, title } = state.search;
-      // console.log('hiiiiiiiiiiiiiiiiiiii');
-      console.log(location,title);
-      // Simulate API call or return dummy data
-      return [];
+      const jobs = await fetchJobsApi(url); // fetch from API
+      return jobs; // ✅ pass data to fulfilled
     } catch (err) {
-      return ThunkAPI.rejectWithValue(err.response?.data || "Something went wrong");
+      return ThunkAPI.rejectWithValue(
+        err.response?.data || "Something went wrong"
+      );
     }
   }
 );
 
+
 const initialState = {
-  title: '',
-  location: '',
+  title: "",
+  location: "",
   loading: false,
   error: null,
   searchedJobs: [],
@@ -31,6 +28,9 @@ const searchSlice = createSlice({
   name: "search",
   initialState,
   reducers: {
+    setJobs(state, action) {
+      state.searchedJobs = action.payload;
+    },
     setTitle(state, action) {
       state.title = action.payload.target.value;
     },
@@ -38,9 +38,9 @@ const searchSlice = createSlice({
       state.location = action.payload.target.value;
     },
     clearFields(state) {
-      state.location = null;
-      state.title = null;
-    }
+      state.location = "";
+      state.title = "";
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -60,7 +60,7 @@ const searchSlice = createSlice({
 });
 
 // Export actions
-export const { setTitle, setLocation ,clearFields} = searchSlice.actions;
+export const { setTitle, setLocation, clearFields } = searchSlice.actions;
 
 // Export reducer
 export default searchSlice.reducer;

@@ -9,7 +9,7 @@ export default function MobileLayout({ children }) {
     <div className="min-h-screen bg-white text-gray-900">
       
       {/* Top Navbar */}
-      <header className="fixed top-0 left-0 w-full bg-white shadow-md z-10">
+      <header className=" top-0 left-0 w-full bg-white shadow-md z-10">
         <SearchBox />
       </header>
 

@@ -40,18 +40,22 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'django_filters',
+    'corsheaders',
     'jobs'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'backend.urls'
 
@@ -110,7 +114,7 @@ DATABASES = {
         'USER': config("DB_USER"),     # Role name you created
         'PASSWORD': config("DB_USER_PASSWORD"), # Password you set for that role
         'HOST': 'localhost',         # Since it’s running locally
-        'PORT': '5432',              # Default PostgreSQL port
+        'PORT': '5433',              # Default PostgreSQL port
     }
 }
 

@@ -5,7 +5,8 @@ export const fetchJobs = createAsyncThunk(
   "jobs/fetchJobs",
   async (url, ThunkAPI) => {
     try {
-      const jobs = await fetchJobsApi(url); // fetch from API
+      const options = {}//here these are the options that should be taken from the user
+      const jobs = await fetchJobsApi(url,options); // fetch from API
       return jobs; // ✅ pass data to fulfilled
     } catch (err) {
       return ThunkAPI.rejectWithValue(

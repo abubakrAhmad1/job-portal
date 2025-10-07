@@ -1,11 +1,19 @@
 import axios from 'axios'; // Import Axios
 
-export const fetchJobsApi = async (url) => {
+export const fetchJobsApi = async (url,options ={}) => {
   try {
     // 1. Axios request
     // Axios throws an error for non-2xx status codes automatically,
     // so we don't need the explicit 'if (!response.ok)' check.
-    const response = await axios.get(url);
+    const response = await axios.get(url, {
+      params : {
+        search : options.search ||'',
+        location:options.location ||'',
+        title:options.title ||'',
+        ordering : options.ordering ||'',
+
+      }
+    });
 
     // 2. Data is directly available in response.data
     const res = response.data; 
@@ -31,3 +39,17 @@ export const fetchJobsApi = async (url) => {
     throw error; 
   }
 };
+
+
+
+export const getFilteredProducts = (url) => {
+  axios.get(url, { params: filters });
+};
+export const addProduct = (data) => axios.post(BASE_URL, data);
+export const updateProduct = (id, data) => axios.put(`${BASE_URL}${id}/`, data);
+export const deleteProduct = (id) => axios.delete(`${BASE_URL}${id}/`);
+
+
+export const func = (obj) => {
+  
+}

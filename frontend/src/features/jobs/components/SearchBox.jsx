@@ -1,14 +1,24 @@
 import Button from "../../../components/Button";
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchJobs, setLocation, setTitle, clearFields } from '../slices/searchSlice';
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchJobs,
+  setLocation,
+  setTitle,
+  clearFields,
+} from "../slices/searchSlice";
 
 export default function SearchBox() {
-  const data = useSelector(state => state.search);
+  const data = useSelector((state) => state.search);
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(fetchJobs());
+    dispatch(
+      dispatch(fetchJobs({url: `${import.meta.env.VITE_API_URL}api/jobs/`, options:{
+        title: data.title,
+        location: data.location,
+      }}))
+    );
     dispatch(clearFields());
   };
 
@@ -21,16 +31,16 @@ export default function SearchBox() {
         <input
           type="text"
           name="title"
-          value={data.title || ''}
-          onChange={(e)=> dispatch(setTitle(e))}
+          value={data.title || ""}
+          onChange={(e) => dispatch(setTitle(e))}
           placeholder="Job title"
           className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <input
           type="text"
           name="location"
-          value={data.location || ''}
-          onChange={(e)=> dispatch(setLocation(e))}
+          value={data.location || ""}
+          onChange={(e) => dispatch(setLocation(e))}
           placeholder="Location"
           className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />

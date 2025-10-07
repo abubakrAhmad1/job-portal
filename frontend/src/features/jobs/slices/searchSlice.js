@@ -3,9 +3,8 @@ import { fetchJobsApi } from "../../../api/jobApi";
 
 export const fetchJobs = createAsyncThunk(
   "jobs/fetchJobs",
-  async (url, ThunkAPI) => {
+  async ({url,options}, ThunkAPI) => {
     try {
-      const options = {}//here these are the options that should be taken from the user
       const jobs = await fetchJobsApi(url,options); // fetch from API
       return jobs; // ✅ pass data to fulfilled
     } catch (err) {

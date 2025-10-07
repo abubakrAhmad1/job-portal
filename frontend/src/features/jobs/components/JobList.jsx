@@ -9,7 +9,7 @@ export default function JobList() {
 
   useEffect(() => {
     const fetchData = async () => {
-      await dispatch(fetchJobs(`${import.meta.env.VITE_API_URL}api/jobs/`));
+      await dispatch(fetchJobs({url : `${import.meta.env.VITE_API_URL}api/jobs/`}));
     };
     fetchData();
   }, [dispatch]);

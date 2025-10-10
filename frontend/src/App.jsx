@@ -19,14 +19,14 @@ function App() {
 
 
 
-      {/* <MobileLayout>
+      <MobileLayout>
         <JobList />
-      </MobileLayout> */}
+      </MobileLayout>
 
 
       {/* <JobList /> */}
 
-      <Rough />
+      {/* <Rough /> */}
 
 
     </>

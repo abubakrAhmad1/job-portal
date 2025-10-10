@@ -102,3 +102,64 @@ class RegisterUserView(generics.CreateAPIView):
     permission_classes = [permissions.AllowAny]
 
 
+from django.http import HttpResponse
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support.ui import WebDriverWait
+import time
+from selenium.webdriver.support import expected_conditions as EC
+
+def scrap(request):
+    driver = webdriver.Chrome()
+    driver.get("https://www.actuarylist.com/?search=software+engineer&page=1")
+    driver.maximize_window()
+
+    # 2. Wait for the popup to appear
+    time.sleep(5)
+
+    # 3. Try pressing the ESC key to close the popup
+    try:
+        ActionChains(driver).send_keys(Keys.ESCAPE).perform()
+        time.sleep(0.5)
+        print("Popup closed using ESC key ✅")
+    except Exception as e:
+        print("Escape key failed:", e)
+
+    #scrapping done here
+    wait = WebDriverWait(driver, 10)
+    container = wait.until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, ".Job_grid-section__kgIsR"))
+    )
+    job_cards = container.find_elements(By.CSS_SELECTOR, ".Job_job-card__YgDAV")
+
+    jobs = []
+   
+    for card in job_cards:
+        try:
+            company = card.find_element(By.CSS_SELECTOR, ".Job_job-card__company__7T9qY").text
+        except:
+            company = ""
+
+        try:
+            position = card.find_element(By.CSS_SELECTOR, ".Job_job-card__position__ic1rc").text
+        except:
+            position = ""
+
+        try:
+            location = card.find_element(By.CSS_SELECTOR, ".Job_job-card__locations__x1exr").text
+        except:
+            location = ""
+
+        jobs.append({
+            "position": position,
+            "company": company,
+            "location": location
+        })
+    
+    # wait 5 sec before closing the window
+    time.sleep(5)
+    driver.quit()
+    return HttpResponse(f"Scraping done! Total jobs: {len(jobs)}")
+

@@ -2,9 +2,11 @@ import "./App.css";
 // import Card from "./components/Card";
 // import SearchBox from './features/jobs/components/SearchBox'
 import Button from "./components/Button";
+import Rough from "./components/Rough";
 import JobList from "./features/jobs/components/JobList";
 import SearchBox from "./features/jobs/components/SearchBox";
 import MobileLayout from "./layouts/MobileLayout";
+
 
 function App() {
   return (
@@ -15,12 +17,18 @@ function App() {
       {/* <SearchBox /> */}
       {/* <SearchBox />  */}
 
-      <MobileLayout>
+
+
+      {/* <MobileLayout>
         <JobList />
-      </MobileLayout>
+      </MobileLayout> */}
+
+
       {/* <JobList /> */}
 
-      
+      <Rough />
+
+
     </>
   );
 }

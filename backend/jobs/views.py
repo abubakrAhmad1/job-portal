@@ -103,6 +103,8 @@ class RegisterUserView(generics.CreateAPIView):
 
 
 from django.http import HttpResponse
+from django.http import JsonResponse
+
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -161,5 +163,6 @@ def scrap(request):
     # wait 5 sec before closing the window
     time.sleep(5)
     driver.quit()
-    return HttpResponse(f"Scraping done! Total jobs: {len(jobs)}")
+    # return HttpResponse(f"Scraping done! Total jobs: {len(jobs)}")
+    return JsonResponse({'jobs' : jobs})
 

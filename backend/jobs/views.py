@@ -159,6 +159,12 @@ def scrap(request):
             "company": company,
             "location": location
         })
+        if position and company:
+            Job.objects.get_or_create(  # avoids duplicates
+                title=position,
+                company=company,
+                defaults={"location": location}
+            )
     
     # wait 5 sec before closing the window
     time.sleep(5)

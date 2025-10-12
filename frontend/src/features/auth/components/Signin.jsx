@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from 'react-router-dom';
 
 const SignInPage = () => {
   const [formData, setFormData] = useState({ username: "", password: "" });
@@ -72,12 +73,12 @@ const SignInPage = () => {
 
         <p className="text-sm text-gray-600 text-center mt-5">
           Don’t have an account?{" "}
-          <a
-            href="/signup"
+          <Link
+            to="/signup"
             className="text-blue-600 hover:underline font-medium"
           >
             Sign Up
-          </a>
+          </Link>
         </p>
       </div>
     </div>

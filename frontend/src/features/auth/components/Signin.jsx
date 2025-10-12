@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { Link } from 'react-router-dom';
+import authApi from "../../../api/authApi";
+import { useNavigate } from "react-router-dom";
 
 const SignInPage = () => {
+
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({ username: "", password: "" });
 
   const handleChange = (e) => {
@@ -11,10 +15,18 @@ const SignInPage = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
     // TODO: Add your login API call here
+    const res = await authApi(`${import.meta.env.VITE_API_URL}api/token/`,formData);
+    let refresh = null;
+    let token = null;
+    if(res.access) {
+      token  = res.access
+      refresh = res.refresh
+      navigate('/joblist')
+    }
   };
 
   return (

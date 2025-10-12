@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import SignInPage from "../features/auth/components/Signin";
 import SignUpPage from "../features/auth/components/Signup";
+import JobList from "../features/jobs/components/JobList";
 
 
 export default function AppRoutes() {
@@ -8,6 +9,7 @@ export default function AppRoutes() {
     <Routes>
       <Route path="/signin" element={<SignInPage />} />
       <Route path="/signup" element={<SignUpPage />} />
+      <Route path = '/joblist' element = {<JobList />} />
     </Routes>
   );
 }

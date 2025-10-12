@@ -1,7 +1,11 @@
 import React, { useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import authApi from "../../../api/authApi";
+import { useNavigate } from "react-router-dom";
 
 const SignUpPage = () => {
+
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -16,7 +20,7 @@ const SignUpPage = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
       alert("Passwords do not match!");
@@ -25,6 +29,13 @@ const SignUpPage = () => {
 
     console.log("Sign Up Data:", formData);
     // TODO: Add your signup API call here
+    const res = await authApi(
+      `${import.meta.env.VITE_API_URL}api/user/register/`,
+      { username: formData.username, password: formData.password }
+    );
+    if(res.username == formData.username) {
+      navigate('/signin')
+    }
   };
 
   return (

@@ -1,10 +1,11 @@
 import React from 'react'
 import SearchBox from '../features/jobs/components/SearchBox'
 import Footer from '../features/jobs/components/Footer'
+import { Outlet } from "react-router-dom";
 // import Navbar from './Navbar' // ✅ Import your NavBar component
 // import BottomNav from './BottomNav' // ✅ Import Bottom navigation component
 
-export default function MobileLayout({ children }) {
+export default function MobileLayout() {
   return (
     <div className="min-h-screen bg-white text-gray-900">
       
@@ -15,7 +16,7 @@ export default function MobileLayout({ children }) {
 
       {/* Main content with padding to avoid overlap with fixed navbar */}
       <main className="pt-16 pb-16 px-4">
-        {children} {/* ✅ Page-specific content goes here */}
+        <Outlet /> {/* ✅ Page-specific content goes here */}
       </main>
 
       {/* Bottom Navigation (if needed) */}

@@ -10,7 +10,7 @@ export default function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<ProtectedLayout />}>
-        <Route path="/createjob" element={<CreateJobForm />} />
+        <Route path="createjob" element={<CreateJobForm />} />
       </Route>
       <Route path="/signin" element={<SignInPage />} />
       <Route path="/signup" element={<SignUpPage />} />

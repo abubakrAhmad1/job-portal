@@ -172,3 +172,74 @@ def scrap(request):
     # return HttpResponse(f"Scraping done! Total jobs: {len(jobs)}")
     return JsonResponse({'jobs' : jobs})
 
+
+
+
+
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.response import Response
+from rest_framework import status
+from django.conf import settings
+
+class CookieTokenObtainPairView(TokenObtainPairView):
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+        data = response.data
+
+        access_token = data.get("access")
+        refresh_token = data.get("refresh")
+
+        response.set_cookie(
+            key='access',
+            value=access_token,
+            httponly=True,
+            secure=True,           # use True in production (HTTPS)
+            samesite='Lax'
+        )
+        response.set_cookie(
+            key='refresh',
+            value=refresh_token,
+            httponly=True,
+            secure=True,
+            samesite='Lax'
+        )
+
+        # Optionally remove tokens from JSON response
+        del data['access']
+        del data['refresh']
+
+        return response
+
+
+class CookieTokenRefreshView(TokenRefreshView):
+    def post(self, request, *args, **kwargs):
+        refresh_token = request.COOKIES.get('refresh')
+        if not refresh_token:
+            return Response({'error': 'No refresh token'}, status=status.HTTP_400_BAD_REQUEST)
+
+        request.data['refresh'] = refresh_token
+        response = super().post(request, *args, **kwargs)
+        access_token = response.data.get('access')
+
+        # Update access cookie
+        response.set_cookie(
+            key='access',
+            value=access_token,
+            httponly=True,
+            secure=True,
+            samesite='Lax'
+        )
+
+        del response.data['access']
+        return response
+
+
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+
+class ProtectedView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        return Response({"message": "You are authenticated!"})

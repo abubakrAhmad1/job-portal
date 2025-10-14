@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import authApi from "../../../api/authApi";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const SignUpPage = () => {
-
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
@@ -22,19 +20,34 @@ const SignUpPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (formData.password !== formData.confirmPassword) {
       alert("Passwords do not match!");
       return;
     }
 
-    console.log("Sign Up Data:", formData);
-    // TODO: Add your signup API call here
-    const res = await authApi(
-      `${import.meta.env.VITE_API_URL}api/user/register/`,
-      { username: formData.username, password: formData.password }
-    );
-    if(res.username == formData.username) {
-      navigate('/signin')
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}api/user/register/`,
+        {
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+        }
+      );
+
+      if (res.status === 201) {
+        alert("✅ Account created successfully!");
+        navigate("/signin");
+      }
+    } catch (err) {
+      console.error(err);
+
+      if (err.response && err.response.status === 400) {
+        alert("❌ Invalid data. Username or email might already exist.");
+      } else {
+        alert("❌ Something went wrong. Try again later.");
+      }
     }
   };
 

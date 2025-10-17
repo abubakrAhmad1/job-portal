@@ -35,7 +35,8 @@ const SignInPage = () => {
 
     if (res.status === 200) {
       dispatch(setAuthenticated(true));
-      navigate("/createjob");
+      // navigate("/createjob");
+
     }
   };
 
@@ -92,6 +93,13 @@ const SignInPage = () => {
             Sign In
           </button>
         </form>
+
+         <button
+          onClick={() => navigate("/joblist")}
+          className="w-full bg-gray-100 text-gray-700 font-medium py-2.5 rounded-lg hover:bg-gray-200 transition duration-200 mt-3 border border-gray-300"
+        >
+          See Jobs Without Signing In
+        </button>
 
         <p className="text-sm text-gray-600 text-center mt-5">
           Don’t have an account?{" "}

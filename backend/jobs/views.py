@@ -194,7 +194,7 @@ class CookieTokenObtainPairView(TokenObtainPairView):
             key='access',
             value=access_token,
             httponly=True,
-            secure=True,           # use True in production (HTTPS) and False in development(HTTP)
+            secure=True,           # CHROME CONSIDER THE LOCAL HOST AS A SECURE MEANS HTTPS NOT HTTP
             samesite='None'
         )
         response.set_cookie(

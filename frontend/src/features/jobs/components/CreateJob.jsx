@@ -3,10 +3,10 @@ import axios from "axios";
 
 export default function CreateJobForm() {
   const [formData, setFormData] = useState({
-    companyName: "",
-    roleName: "",
+    company: "",
+    title: "",
     location: "",
-    dateAdded: "",
+    posting_date: "",
   });
 
   // ✅ Handle input changes
@@ -17,7 +17,7 @@ export default function CreateJobForm() {
   // ✅ Set today's date
   const handleSetToday = () => {
     const today = new Date().toISOString().split("T")[0]; // Format: YYYY-MM-DD
-    setFormData({ ...formData, dateAdded: today });
+    setFormData({ ...formData, posting_date: today });
   };
 
   // ✅ Submit form (you’ll connect this to Django API)
@@ -25,13 +25,13 @@ export default function CreateJobForm() {
     e.preventDefault();
     try {
       // Example: Replace with your backend endpoint
-      await axios.post("http://localhost:8000/api/jobs/", formData);
+      await axios.post(`${import.meta.env.VITE_API_URL}api/jobs/`, formData,{withCredentials:true});
       alert("Job added successfully!");
       setFormData({
-        companyName: "",
-        roleName: "",
+        company: "",
+        title: "",
         location: "",
-        dateAdded: "",
+        posting_date: "",
       });
     } catch (error) {
       console.error(error);
@@ -43,14 +43,13 @@ export default function CreateJobForm() {
     <div className="max-w-md mx-auto bg-white p-6 rounded-2xl shadow-md">
       <h2 className="text-2xl font-semibold mb-4 text-center">Add New Job</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
-
         {/* Company Name */}
         <div>
           <label className="block mb-1 font-medium">Company Name</label>
           <input
             type="text"
-            name="companyName"
-            value={formData.companyName}
+            name="company"
+            value={formData.company}
             onChange={handleChange}
             className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="e.g. Google"
@@ -63,8 +62,8 @@ export default function CreateJobForm() {
           <label className="block mb-1 font-medium">Role Name</label>
           <input
             type="text"
-            name="roleName"
-            value={formData.roleName}
+            name="title"
+            value={formData.title}
             onChange={handleChange}
             className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="e.g. Software Engineer"
@@ -92,8 +91,8 @@ export default function CreateJobForm() {
           <div className="flex items-center gap-2">
             <input
               type="date"
-              name="dateAdded"
-              value={formData.dateAdded}
+              name="posting_date"
+              value={formData.posting_date}
               onChange={handleChange}
               className="flex-1 border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
               required

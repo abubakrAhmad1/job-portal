@@ -4,6 +4,7 @@ import authApi from "../../../api/authApi";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setAuthenticated } from "../slice/authSlice";
+import axios from "axios";
 
 const SignInPage = () => {
   const dispatch = useDispatch();
@@ -21,10 +22,17 @@ const SignInPage = () => {
     e.preventDefault();
     console.log("Form submitted:", formData);
     // TODO: Add your login API call here
-    const res = await authApi(
+    // const res = await authApi(
+    //   `${import.meta.env.VITE_API_URL}api/token/`,
+    //   formData
+    // );
+
+    const res = await axios.post(
       `${import.meta.env.VITE_API_URL}api/token/`,
-      formData
+      formData,
+      { withCredentials: true }
     );
+
     if (res.status === 200) {
       dispatch(setAuthenticated(true));
       navigate("/createjob");

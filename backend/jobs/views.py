@@ -194,15 +194,15 @@ class CookieTokenObtainPairView(TokenObtainPairView):
             key='access',
             value=access_token,
             httponly=True,
-            secure=True,           # use True in production (HTTPS)
-            samesite='Lax'
+            secure=True,           # use True in production (HTTPS) and False in development(HTTP)
+            samesite='None'
         )
         response.set_cookie(
             key='refresh',
             value=refresh_token,
             httponly=True,
-            secure=True,
-            samesite='Lax'
+            secure=False,
+            samesite='None'
         )
 
         # Optionally remove tokens from JSON response

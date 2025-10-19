@@ -195,7 +195,8 @@ class CookieTokenObtainPairView(TokenObtainPairView):
             value=access_token,
             httponly=True,
             secure=True,           # CHROME CONSIDER THE LOCAL HOST AS A SECURE MEANS HTTPS NOT HTTP
-            samesite='None'
+            samesite='None',
+            max_age=60
         )
         response.set_cookie(
             key='refresh',
@@ -243,3 +244,31 @@ class ProtectedView(APIView):
 
     def get(self, request):
         return Response({"message": "You are authenticated!"})
+
+
+from django.conf import settings
+from datetime import datetime, timedelta, timezone
+
+class LogoutView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        response = Response({"detail": "Logged out successfully"}, status=200)
+
+        # Clear the cookies by setting empty values with max_age=0
+        response.set_cookie(
+            key='access',
+            value='',
+            secure=True,
+            samesite='None',
+            max_age=0
+        )
+        response.set_cookie(
+            key='refresh',
+            value='',
+            secure=True,
+            samesite='None',
+            max_age=0
+        )
+
+        return response

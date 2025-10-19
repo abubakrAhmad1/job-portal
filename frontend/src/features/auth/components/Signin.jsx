@@ -21,12 +21,7 @@ const SignInPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
-    // TODO: Add your login API call here
-    // const res = await authApi(
-    //   `${import.meta.env.VITE_API_URL}api/token/`,
-    //   formData
-    // );
-
+   
     const res = await axios.post(
       `${import.meta.env.VITE_API_URL}api/token/`,
       formData,
@@ -35,7 +30,7 @@ const SignInPage = () => {
 
     if (res.status === 200) {
       dispatch(setAuthenticated(true));
-      // navigate("/createjob");
+      navigate("/app/welcome");
 
     }
   };

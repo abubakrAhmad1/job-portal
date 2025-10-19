@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import JobListCreateView, JobDetailView,RegisterUserView ,CookieTokenObtainPairView,CookieTokenRefreshView,ProtectedView
+from .views import JobListCreateView, JobDetailView,RegisterUserView ,CookieTokenObtainPairView,CookieTokenRefreshView,ProtectedView,LogoutView
 
 urlpatterns = [
     path('jobs/', JobListCreateView.as_view(), name='job-list-create'),
@@ -8,6 +8,7 @@ urlpatterns = [
      path("token/", CookieTokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("token/refresh/", CookieTokenRefreshView.as_view(), name="token_refresh"),
     path("protected/", ProtectedView.as_view(), name="protected"),
+    path('logout/',LogoutView.as_view()),
 
 ]
 

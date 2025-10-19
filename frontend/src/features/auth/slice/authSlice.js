@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchJobsApi } from "../../../api/jobApi";
+import axios from "axios";
+
 
 // export const fetchJobs = createAsyncThunk(
 //   "jobs/fetchJobs",
@@ -14,7 +16,14 @@ import { fetchJobsApi } from "../../../api/jobApi";
 //     }
 //   }
 // );
-
+export const logoutFunction =  createAsyncThunk(
+  'jobs/logout',
+  async () =>{
+      await axios.post(`${import.meta.env.VITE_API_URL}api/logout/`,{
+        withCredentials : true
+      })
+  }
+)
 ///////
 const initialState = {
   isAuthenticated : false,
@@ -25,12 +34,14 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     ///Done updations
-    setAuthenticated(state) {
-      state.isAuthenticated = true;
+    setAuthenticated(state,action) {
+      state.isAuthenticated = action.payload;
     },
-    logout: (state) => {
+  },
+  extraReducers : (builder) => {
+    builder.addCase(logoutFunction.fulfilled , (state) => {
       state.isAuthenticated = false;
-    },
+    })
   },
 //   extraReducers: (builder) => {
 //     builder

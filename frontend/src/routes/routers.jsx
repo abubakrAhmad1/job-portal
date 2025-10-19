@@ -13,6 +13,7 @@ export default function AppRoutes() {
       <Route path="/" element={<Navigate to="/signin" replace />} />
       <Route path="/app" element={<ProtectedLayout />}>
         <Route path="createjob" element={<CreateJobForm />} />
+        <Route path="welcome" element={<Welcome />} />
         <Route path="dashboard" element={<MobileLayout />}>
           <Route path="list" element={<JobList />} />
         </Route>
@@ -20,7 +21,6 @@ export default function AppRoutes() {
       <Route path="/signin" element={<SignInPage />} />
       <Route path="/signup" element={<SignUpPage />} />
       <Route path="/joblist" element={<JobList />} />
-      <Route path="/welcome" element = {<Welcome />}/>
     </Routes>
   );
 }
